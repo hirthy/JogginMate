@@ -1,0 +1,3 @@
+Howdy. This is a prototype for a mobile Jogging app featuring an audio interface. To export in Processing, you must choose File...Export and then copy the Data folder to the same directory as index.html if it is not there already, as well as change the dimensions of the applet in index.html to match the dimensions in the pde file.
+
+Happy joggin.
