@@ -44,18 +44,18 @@
     border-radius: 5px;
     background-color: white;
     margin: auto;
-    color: black;
+    color: #2c2c2c;
   }
 
   #app button, #app input
   {
     background-color: white;
-    border: 1px solid #ccc;
+    border: 1px solid #2c2c2c;
     padding: 5px 2%;
     width: 96%;
     font-size: 24px;
-    color: #CCC;
-    border-radius: 10px;
+    color: #2c2c2c;
+    border-radius: 20px;
     margin: 10px auto;
     height: 60px;
   }
@@ -71,21 +71,14 @@
   {
     margin: 20px auto;
   }
-  #app .button-checkbox.selected
+  #app button:active, #app .button-checkbox.selected
   {
-    background-color: #2c2c2c;
-    color: white;
+    background-color: #2c2c2c !important;
+    color: white !important;
   }
-
 
   #app button:hover
   {
-    border-color: #dfdfdf;
-  }
-
-  #app button:active
-  {
-    color: white;
     background-color: #dfdfdf;
   }
 
@@ -201,8 +194,8 @@
         WEATHER: true
       };
 
-  setupNumberIncrementor($('#distance-inc'), 1, "DISTANCE", settings.DISTANCE);
-  setupNumberIncrementor($('#pace-inc'), 1, "PACE", settings.PACE);
+  setupNumberIncrementor($('#distance-inc'), 1.0, "DISTANCE", settings.DISTANCE);
+  setupNumberIncrementor($('#pace-inc'), 0.5, "PACE", settings.PACE);
 
 
     
@@ -224,7 +217,7 @@
       </section>
       <section class="screen customize">
         <div class="settings">
-          <label for="distance">Distance (in miles):</label>
+          <label>Distance (in miles):</label>
         
           <div id="distance-inc" class="number-incrementer">
             <button class="down">-</button>
@@ -232,7 +225,7 @@
             <button class="up">+</button>
           </div>
 
-          <label for="pace">Pace:</label>
+          <label>Pace:</label>
 
           <div id="pace-inc" class="number-incrementer">
             <button class="down">-</button>
