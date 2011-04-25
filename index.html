@@ -258,12 +258,16 @@
 
     $('.start').click(function() { 
       $(this).closest('#app').removeClass().addClass('jogging');
+      //jogging tick action
+      tickInterval = setInterval(tick, 1000);  
     });
 
     $('.stop').click(function() {
       $(this).closest('#app').removeClass().addClass('default');
       ticks = 0;
-      clearInterval(tickInterval);
+
+      //settimeout so it redraws at 0 then stops.
+      setTimeout(function(){clearInterval(tickInterval);},1000);
     });
     
     //alert buttons
@@ -290,11 +294,7 @@
 
     setupNumberIncrementor($('#distance-inc'), 1.0, "DISTANCE", settings.DISTANCE);
     setupNumberIncrementor($('#pace-inc'), 0.5, "PACE", settings.PACE);
-
-
-    //jogging tick action
-    tickInterval = setInterval(tick, 1000);
-    
+ 
   });
 </script>
 
@@ -303,12 +303,12 @@
 
   <div id="wizard">
     <h4>Simulate events</h4>
-    <a href="#" id="simulate-hydrate">Hydrate Alert</a>
-    <a href="#" id="simulate-heartrate">Heart Rate Alert</a>
-    <a href="#" id="simulate-calories">Calories Alert</a>
-    <a href="#" id="simulate-obstacle">Obstacle Alert</a>
-    <a href="#" id="simulate-milestone">Milestone Alert</a>
-    <a href="#" id="simulate-weather">Weather Alert</a>
+    <a href="#" id="simulate-hydrate" class="alert">Hydrate Alert</a>
+    <a href="#" id="simulate-heartrate" class="alert">Heart Rate Alert</a>
+    <a href="#" id="simulate-calories" class="alert">Calories Alert</a>
+    <a href="#" id="simulate-obstacle" class="alert">Obstacle Alert</a>
+    <a href="#" id="simulate-milestone" class="alert">Milestone Alert</a>
+    <a href="#" id="simulate-weather" class="alert">Weather Alert</a>
   </div>
 
   <div id="container">
