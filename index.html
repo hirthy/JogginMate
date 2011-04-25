@@ -1,0 +1,213 @@
+<!DOCTYPE HTML> 
+<html lang="en"> 
+<head> 
+ 
+<meta charset="utf-8"> 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+<title>JogginMate</title> 
+ 
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]--> 
+ 
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script> 
+  
+<style> 
+  * { margin: 0; padding: 0; }
+
+  body
+  {
+    background-color: #2c2c2c;
+    color: white;
+    font-family: Helvetica, Arial, sans-serif;
+
+  }
+
+  .title
+  {
+    text-align: center;
+    padding: 10px;
+  }
+
+  #container
+  {
+    padding-top: 20px;
+    width: 60%;
+    margin: auto
+  }
+
+  #app
+  {
+    width: 400px;
+    height: 600px;
+    border: 15px solid black;
+    border-radius: 5px;
+    background-color: white;
+    margin: auto;
+    color: black;
+  }
+
+  #app button, #app input, #app .button-checkbox
+  {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px 2%;
+    width: 96%;
+    font-size: 24px;
+    color: #CCC;
+    border-radius: 10px;
+    margin: 10px auto;
+    height: 60px;
+  }
+
+  #app button, #app .button-checkbox
+  {
+    width: 70%;
+    text-transform: uppercase;
+    cursor: pointer;    
+  }
+
+  #app .button-checkbox
+  {
+    height: auto;
+    padding: 15px;
+    margin: 20px auto;
+  }
+
+
+  #app button:hover
+  {
+    border-color: #dfdfdf;
+  }
+
+  #app button:active
+  {
+    color: white;
+    background-color: #dfdfdf;
+  }
+
+  #app .screen
+  {
+    position: relative;
+    height: 600px;
+    display: none;
+  }
+
+  #app .screen *
+  {
+    display: block;
+  }
+
+  #app .buttons
+  {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+  #app .settings
+  {
+    padding: 40px
+  }
+
+  #app .alerts input
+  {
+    display: none;
+  }
+
+  #app input:checked + label.button-checkbox
+  {
+    background-color: #2c2c2c;
+    color: white;
+  }
+
+  #app.default .screen.home { display: block; }
+  #app.custom .screen.customize { display: block; }
+  #app.alerts .screen.alerts { display: block; }
+
+  
+
+</style> 
+<script>
+  $(function() {
+    //DOM ready
+
+    //setup buttons
+    //home
+    $('#start-quick').click(function() { });
+    $('#customize, #back-to-customize').click(function() {
+      $(this).closest('#app').removeClass().addClass('custom');
+    });
+
+    //customize
+    $('#alerts').click(function() {
+      $(this).closest('#app').removeClass().addClass('alerts');
+    }); 
+
+    $('#start-custom').click(function() {
+      $(this).closest('#app').removeClass().addClass('default');
+    }); 
+    
+    
+  });
+</script>
+
+</head>
+<body> 
+
+  <section id="container">
+    <h1 class="title">JogginMate</h1>
+    <section id="app" class="default">
+      <section class="home screen">
+        <img src="data/logo.jpg" id="home-logo" />
+        <div class="buttons">
+          <button id="start-quick">Quick Start</button>
+          <button id="customize">Customize</button>
+        </div>
+      </section>
+      <section class="screen customize">
+        <div class="settings">
+          <label for="distance">Distance (in miles):</label>
+          <input type="text" class="distance" name="distance" placeholder="text fields suck. we should" />
+          <label for="pace">Pace:</label>
+          <input type="text" class="pace" name="pace" placeholder="try +/- buttons" />
+        </div>
+        <div class="buttons">
+          <button id="alerts">Alerts</button>
+          <button id="start-custom">Begin Workout!</button>
+        </div>
+        
+      </section>
+      <section class="screen alerts">
+        <div class="buttons">
+          <input type="checkbox" id="hydrate">
+          <label class="button-checkbox" for="hydrate">Hydrate</label>
+
+          <input type="checkbox" id="heart-rate">
+          <label class="button-checkbox" for="heart-rate">Heart Rate</label>
+
+          <input type="checkbox" id="calories">
+          <label class="button-checkbox" for="calories">Calories</label>
+
+          <input type="checkbox" id="obstacles">
+          <label class="button-checkbox" for="obstacles">Obstacles</label>
+
+          <input type="checkbox" id="milestones">
+          <label class="button-checkbox" for="milestones">Milestones</label>
+
+          <input type="checkbox" id="weather">
+          <label class="button-checkbox" for="weather">Weather</label>
+
+          <button id="back-to-customize">Back</button>
+          
+        </div>
+      </section>
+    </section>
+  </section>
+
+
+
+</body> 
+</html> 
+
