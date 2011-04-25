@@ -47,7 +47,7 @@
     color: black;
   }
 
-  #app button, #app input, #app .button-checkbox
+  #app button, #app input
   {
     background-color: white;
     border: 1px solid #ccc;
@@ -60,7 +60,7 @@
     height: 60px;
   }
 
-  #app button, #app .button-checkbox
+  #app button
   {
     width: 70%;
     text-transform: uppercase;
@@ -69,9 +69,12 @@
 
   #app .button-checkbox
   {
-    height: auto;
-    padding: 15px;
     margin: 20px auto;
+  }
+  #app .button-checkbox.selected
+  {
+    background-color: #2c2c2c;
+    color: white;
   }
 
 
@@ -116,31 +119,56 @@
     display: none;
   }
 
-  #app input:checked + label.button-checkbox
-  {
-    background-color: #2c2c2c;
-    color: white;
-  }
-
   #app.default .screen.home { display: block; }
   #app.custom .screen.customize { display: block; }
   #app.alerts .screen.alerts { display: block; }
 
-  
+  #app .number-incrementer * { display: inline-block !important; width: 30%; }
+  #app .number-incrementer .number { text-align: center; font-weight: bold; font-size: 24px;}
 
 </style> 
 <script>
+
+  function setupNumberIncrementor($div, inc, settingId, defaultVal)
+  {
+    var number = defaultVal;
+    $div
+      .find('.number')
+        .val(number)
+      .end()
+      .find('.up')
+        .click(function() {
+          number += inc;
+          $div.find('.number').text(number);
+          updateIntegerSetting(settingId, number);
+        })
+      .end()
+      .find('.down')
+        .click(function() {
+          if(number - inc < 0) return;      
+          number -= inc;
+          $div.find('.number').text(number);
+          updateIntegerSetting(settingId, number);          
+        })
+      .end();
+        
+
+
+    }
+
+    function updateIntegerSetting(settingId, settingValue)
+    {
+      eval("settings." + settingId + " = " + settingValue);
+    }
+
   $(function() {
     //DOM ready
 
-    //setup buttons
-    //home
-    $('#start-quick').click(function() { });
+    //setup nav buttons
     $('#customize, #back-to-customize').click(function() {
       $(this).closest('#app').removeClass().addClass('custom');
     });
 
-    //customize
     $('#alerts').click(function() {
       $(this).closest('#app').removeClass().addClass('alerts');
     }); 
@@ -148,7 +176,35 @@
     $('#start-custom').click(function() {
       $(this).closest('#app').removeClass().addClass('default');
     }); 
+
+    $('#start-quick').click(function() { });
     
+    //alert buttons
+    $('.button-checkbox').click(function() {
+      var $this = $(this),
+          settingId = $this.attr('id').toUpperCase();
+
+      $this.toggleClass('selected');
+
+      eval("settings." + settingId + " = ! settings." + settingId);
+    });
+
+    //setup app & variables
+    settings = {
+        PACE: 1.0,
+        DISTANCE: 1.0,
+        HYDRATE: true,
+        HEARTRATE: true,
+        CALORIES: true,
+        OBSTACLES: true,
+        MILESTONES: true,
+        WEATHER: true
+      };
+
+  setupNumberIncrementor($('#distance-inc'), 1, "DISTANCE", settings.DISTANCE);
+  setupNumberIncrementor($('#pace-inc'), 1, "PACE", settings.PACE);
+
+
     
   });
 </script>
@@ -169,9 +225,20 @@
       <section class="screen customize">
         <div class="settings">
           <label for="distance">Distance (in miles):</label>
-          <input type="text" class="distance" name="distance" placeholder="text fields suck. we should" />
+        
+          <div id="distance-inc" class="number-incrementer">
+            <button class="down">-</button>
+            <div class="number">1.0</div>
+            <button class="up">+</button>
+          </div>
+
           <label for="pace">Pace:</label>
-          <input type="text" class="pace" name="pace" placeholder="try +/- buttons" />
+
+          <div id="pace-inc" class="number-incrementer">
+            <button class="down">-</button>
+            <div class="number">1.0</div>
+            <button class="up">+</button>
+          </div>
         </div>
         <div class="buttons">
           <button id="alerts">Alerts</button>
@@ -181,24 +248,13 @@
       </section>
       <section class="screen alerts">
         <div class="buttons">
-          <input type="checkbox" id="hydrate">
-          <label class="button-checkbox" for="hydrate">Hydrate</label>
-
-          <input type="checkbox" id="heart-rate">
-          <label class="button-checkbox" for="heart-rate">Heart Rate</label>
-
-          <input type="checkbox" id="calories">
-          <label class="button-checkbox" for="calories">Calories</label>
-
-          <input type="checkbox" id="obstacles">
-          <label class="button-checkbox" for="obstacles">Obstacles</label>
-
-          <input type="checkbox" id="milestones">
-          <label class="button-checkbox" for="milestones">Milestones</label>
-
-          <input type="checkbox" id="weather">
-          <label class="button-checkbox" for="weather">Weather</label>
-
+          <button id="hydrate" class="button-checkbox selected">Hydrate</button>
+          <button id="heartrate" class="button-checkbox selected">Heart Rate</button>
+          <button id="calories" class="button-checkbox selected">Calories</button>
+          <button id="obstacles" class="button-checkbox selected">Obstacles</button>
+          <button id="milestones" class="button-checkbox selected">Milestones</button>
+          <button id="weather" class="button-checkbox selected">Weather</button>
+          
           <button id="back-to-customize">Back</button>
           
         </div>
