@@ -94,7 +94,7 @@
     display: block;
   }
 
-  #app .buttons
+  #app .screen .buttons
   {
     position: absolute;
     bottom: 20px;
@@ -115,9 +115,84 @@
   #app.default .screen.home { display: block; }
   #app.custom .screen.customize { display: block; }
   #app.alerts .screen.alerts { display: block; }
+  #app.jogging .screen.jogging { display: block; }
 
   #app .number-incrementer * { display: inline-block !important; width: 30%; }
   #app .number-incrementer .number { text-align: center; font-weight: bold; font-size: 24px;}
+
+  /* clock. stolen with powr */
+  #clock {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin: 20px auto 0 auto;
+    list-style: none;
+  }
+  #clock #face {
+    width: 80%;
+    position: relative;
+    display: inline;
+    left: -1px;
+    top: -1px;
+  }
+  #clock .hand {
+    position: absolute;
+    height: 100%;
+    top: 0px;
+    left: 49%;
+    width: 2%;
+  }
+  #clock .hand .head {
+    background-color: black;
+    height: 50%;
+  }
+  #clock .hand#seconds {
+    z-index: 3;
+    height: 88%;
+    top: 5%;
+  }
+  #clock .hand#minutes {
+    z-index: 2;
+    height: 60%;
+    top: 20%;
+  }
+
+  /* the man behind the curtain */
+  #wizard
+  {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    width: 15%;
+    background-color: #d2d2d2;
+    padding: 1%;
+    min-width: 130px;
+    z-index: 10;
+    opacity: 0.7;
+  }
+  
+  #wizard *
+  {
+    color: black;
+    display: block;
+  }
+
+  #wizard h4
+  {
+    margin-bottom: 10px;
+  }
+
+  #wizard a
+  {
+    text-decoration: none;
+    color: #1a1a1a;
+  }
+
+  #wizard a:hover
+  {
+    color: #3a3a3a;
+  }
+    
 
 </style> 
 <script>
@@ -147,12 +222,27 @@
         
 
 
-    }
+  }
 
-    function updateIntegerSetting(settingId, settingValue)
-    {
-      eval("settings." + settingId + " = " + settingValue);
-    }
+  function updateIntegerSetting(settingId, settingValue)
+  {
+    eval("settings." + settingId + " = " + settingValue);
+  }
+
+  var ticks = 0;
+  var tick = function() {
+    //tick tock it's a clock
+    var sdegree = (ticks) * 6;
+    var srotate = "rotate(" + sdegree + "deg)";  
+    $("#seconds").css({"-moz-transform" : srotate, "-webkit-transform" : srotate});
+    
+    var mdegree = (Math.floor(ticks / 60)) * 6;
+    var mrotate = "rotate(" + mdegree + "deg)";
+    $("#minutes").css({"-moz-transform" : mrotate, "-webkit-transform" : mrotate});      
+
+    ticks++;
+
+  }
 
   $(function() {
     //DOM ready
@@ -166,11 +256,15 @@
       $(this).closest('#app').removeClass().addClass('alerts');
     }); 
 
-    $('#start-custom').click(function() {
-      $(this).closest('#app').removeClass().addClass('default');
-    }); 
+    $('.start').click(function() { 
+      $(this).closest('#app').removeClass().addClass('jogging');
+    });
 
-    $('#start-quick').click(function() { });
+    $('.stop').click(function() {
+      $(this).closest('#app').removeClass().addClass('default');
+      ticks = 0;
+      clearInterval(tickInterval);
+    });
     
     //alert buttons
     $('.button-checkbox').click(function() {
@@ -184,8 +278,8 @@
 
     //setup app & variables
     settings = {
-        PACE: 1.0,
-        DISTANCE: 1.0,
+        PACE: 5,
+        DISTANCE: 1,
         HYDRATE: true,
         HEARTRATE: true,
         CALORIES: true,
@@ -194,10 +288,12 @@
         WEATHER: true
       };
 
-  setupNumberIncrementor($('#distance-inc'), 1.0, "DISTANCE", settings.DISTANCE);
-  setupNumberIncrementor($('#pace-inc'), 0.5, "PACE", settings.PACE);
+    setupNumberIncrementor($('#distance-inc'), 1.0, "DISTANCE", settings.DISTANCE);
+    setupNumberIncrementor($('#pace-inc'), 0.5, "PACE", settings.PACE);
 
 
+    //jogging tick action
+    tickInterval = setInterval(tick, 1000);
     
   });
 </script>
@@ -205,13 +301,23 @@
 </head>
 <body> 
 
-  <section id="container">
+  <div id="wizard">
+    <h4>Simulate events</h4>
+    <a href="#" id="simulate-hydrate">Hydrate Alert</a>
+    <a href="#" id="simulate-heartrate">Heart Rate Alert</a>
+    <a href="#" id="simulate-calories">Calories Alert</a>
+    <a href="#" id="simulate-obstacle">Obstacle Alert</a>
+    <a href="#" id="simulate-milestone">Milestone Alert</a>
+    <a href="#" id="simulate-weather">Weather Alert</a>
+  </div>
+
+  <div id="container">
     <h1 class="title">JogginMate</h1>
-    <section id="app" class="default">
+    <div id="app" class="default">
       <section class="home screen">
         <img src="data/logo.jpg" id="home-logo" />
         <div class="buttons">
-          <button id="start-quick">Quick Start</button>
+          <button id="start-quick" class="start">Quick Start</button>
           <button id="customize">Customize</button>
         </div>
       </section>
@@ -235,7 +341,7 @@
         </div>
         <div class="buttons">
           <button id="alerts">Alerts</button>
-          <button id="start-custom">Begin Workout!</button>
+          <button id="start-custom" class="start">Begin Workout!</button>
         </div>
         
       </section>
@@ -252,8 +358,21 @@
           
         </div>
       </section>
-    </section>
-  </section>
+      <section class="screen jogging">
+        <img src="data/logo.jpg" id="home-logo" />
+        <div id="clock">	
+          <img id="face" src="data/clockface.png" /> 
+          <div class="hand" id="minutes"><div class="head"></div></div> 
+          <div class="hand" id="seconds"><div class="head"></div></div> 
+         
+        </div> 
+        
+        <div class="buttons">
+          <button id="stop" class="stop">Stop</button>
+        </div>      
+      </section>
+    </div>
+  </div>
 
 
 
