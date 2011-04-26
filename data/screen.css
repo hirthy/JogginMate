@@ -1,0 +1,191 @@
+/*
+ * Styles for the JogginMate demo
+ *
+ * brought to you by the Chillwavve nation.
+ */
+
+* { margin: 0; padding: 0; }
+
+body
+{
+  background-color: #2c2c2c;
+  color: white;
+  font-family: Helvetica, Arial, sans-serif;
+
+}
+
+.title
+{
+  text-align: center;
+  padding: 10px;
+}
+
+#container
+{
+  padding-top: 20px;
+  width: 60%;
+  margin: auto
+}
+
+/*
+ * app stuff
+ */
+#app
+{
+  width: 400px;
+  height: 600px;
+  border: 15px solid black;
+  border-radius: 5px;
+  background-color: white;
+  margin: auto;
+  color: #2c2c2c;
+}
+
+#app button, #app input
+{
+  background-color: white;
+  border: 1px solid #2c2c2c;
+  padding: 5px 2%;
+  width: 96%;
+  font-size: 24px;
+  color: #2c2c2c;
+  border-radius: 20px;
+  margin: 10px auto;
+  height: 60px;
+}
+
+#app button
+{
+  width: 70%;
+  text-transform: uppercase;
+  cursor: pointer;    
+}
+
+#app .button-checkbox
+{
+  margin: 20px auto;
+}
+#app button:active, #app .button-checkbox.selected
+{
+  background-color: #2c2c2c !important;
+  color: white !important;
+}
+
+#app button:hover
+{
+  background-color: #dfdfdf;
+}
+
+#app .screen
+{
+  position: relative;
+  height: 600px;
+  display: none;
+}
+
+#app .screen *
+{
+  display: block;
+}
+
+#app .screen .buttons
+{
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+#app .settings
+{
+  padding: 40px
+}
+
+#app .alerts input
+{
+  display: none;
+}
+
+#app.default .screen.home { display: block; }
+#app.custom .screen.customize { display: block; }
+#app.alerts .screen.alerts { display: block; }
+#app.jogging .screen.jogging { display: block; }
+
+#app .number-incrementer * { display: inline-block !important; width: 30%; }
+#app .number-incrementer .number { text-align: center; font-weight: bold; font-size: 24px;}
+
+/* clock. 
+ * stolen with powr .
+ */
+#clock {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  margin: 20px auto 0 auto;
+  list-style: none;
+}
+#clock #face {
+  width: 80%;
+  position: relative;
+  display: inline;
+  left: -1px;
+  top: -1px;
+}
+#clock .hand {
+  position: absolute;
+  height: 100%;
+  top: 0px;
+  left: 49%;
+  width: 2%;
+}
+#clock .hand .head {
+  background-color: black;
+  height: 50%;
+}
+#clock .hand#seconds {
+  z-index: 3;
+  height: 88%;
+  top: 5%;
+}
+#clock .hand#minutes {
+  z-index: 2;
+  height: 60%;
+  top: 20%;
+}
+
+/* the man behind the curtain */
+#wizard
+{
+  position: fixed;
+  top: 25px;
+  left: 25px;
+  width: 15%;
+  background-color: #d2d2d2;
+  padding: 1%;
+  min-width: 130px;
+  z-index: 10;
+  opacity: 0.7;
+}
+
+#wizard *
+{
+  color: black;
+  display: block;
+}
+
+#wizard h4
+{
+  margin-bottom: 10px;
+}
+
+#wizard a
+{
+  text-decoration: none;
+  color: #1a1a1a;
+}
+
+#wizard a:hover
+{
+  color: #3a3a3a;
+}
+  
