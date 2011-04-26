@@ -99,5 +99,20 @@ $(function() {
   setupNumberIncrementor($('#distance-inc'), 1.0, "DISTANCE", settings.DISTANCE);
   setupNumberIncrementor($('#pace-inc'), 0.5, "PACE", settings.PACE);
 
+  //alerts
+  $('#app').bind('alert', function(event, soundFileName) {
+    console.log(soundFileName);
+
+    //play sound here, maybe
+    //TODO differentiate between alerts with multiple levels (milestones, calories)
+    var snd = new Audio("data/" + soundFileName + ".wav");
+    snd.play();
+
+  });
+
+  $('.alert').click(function() {
+    $('#app').trigger('alert', $(this).attr('id'));
+  });
+
 });
 

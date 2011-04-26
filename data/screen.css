@@ -159,10 +159,10 @@ body
   position: fixed;
   top: 25px;
   left: 25px;
-  width: 15%;
+  width: 20%;
   background-color: #d2d2d2;
   padding: 1%;
-  min-width: 130px;
+  min-width: 265px;
   z-index: 10;
   opacity: 0.7;
 }
@@ -187,5 +187,10 @@ body
 #wizard a:hover
 {
   color: #3a3a3a;
+}
+
+#wizard .alerts
+{
+  margin-bottom: 15px;
 }
   
