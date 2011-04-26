@@ -105,6 +105,7 @@ $(function() {
 
     //play sound here, maybe
     //TODO differentiate between alerts with multiple levels (milestones, calories)
+    //also TODO: find a good way to loop audio files so that multiple can be synced
     var snd = new Audio("data/" + soundFileName + ".wav");
     snd.play();
 
