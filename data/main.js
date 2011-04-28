@@ -51,13 +51,6 @@ function triggerPiano() {
   drumloop = new Audio("data/drumandpianoloop.wav");
   drumloop.loop = true;
   drumloop.play();
-  
-//  drumloop.play();
-  
-  $(drumloop).one('ended', function() {
-    console.log("stop");
-  });
-
 }
 
 $(function() {
