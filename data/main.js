@@ -68,6 +68,8 @@ $(function() {
   $('.start').click(function() { 
     $(this).closest('#app').removeClass().addClass('jogging');
     //jogging tick action
+    distanceTraveled = 0;
+
     drumloop = new Audio("data/drumloop.wav");
     drumloop.loop = true;
     drumloop.play();
@@ -109,9 +111,6 @@ $(function() {
 
   setupNumberIncrementor($('#distance-inc'), 1.0, "DISTANCE", settings.DISTANCE);
   setupNumberIncrementor($('#pace-inc'), 0.5, "PACE", settings.PACE);
-
-  //music
-  distanceTraveled = 0;
 
   //alerts
   $('#app').bind('alert', function(event, alertSettings) {
