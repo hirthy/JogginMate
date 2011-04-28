@@ -23,15 +23,13 @@ function setupNumberIncrementor($div, inc, settingId, defaultVal)
         updateIntegerSetting(settingId, number);          
       })
     .end();
-      
-
-
 }
 
 function updateIntegerSetting(settingId, settingValue)
 {
   eval("settings." + settingId + " = " + settingValue);
 }
+
 
 var ticks = 0;
 var tick = function() {
@@ -45,6 +43,20 @@ var tick = function() {
   $("#minutes").css({"-moz-transform" : mrotate, "-webkit-transform" : mrotate});      
 
   ticks++;
+
+}
+
+function triggerPiano() {
+  drumloop.pause();
+  drumloop = new Audio("data/drumandpianoloop.wav");
+  drumloop.loop = true;
+  drumloop.play();
+  
+//  drumloop.play();
+  
+  $(drumloop).one('ended', function() {
+    console.log("stop");
+  });
 
 }
 
@@ -63,12 +75,18 @@ $(function() {
   $('.start').click(function() { 
     $(this).closest('#app').removeClass().addClass('jogging');
     //jogging tick action
-    tickInterval = setInterval(tick, 1000);  
+    drumloop = new Audio("data/drumloop.wav");
+    drumloop.loop = true;
+    drumloop.play();
+
+    tickInterval = setInterval(tick, 1000);
   });
 
   $('.stop').click(function() {
     $(this).closest('#app').removeClass().addClass('default');
     ticks = 0;
+    drumloop.pause();
+    
 
     //settimeout so it redraws at 0 then stops.
     setTimeout(function(){clearInterval(tickInterval);},1000);
@@ -99,20 +117,38 @@ $(function() {
   setupNumberIncrementor($('#distance-inc'), 1.0, "DISTANCE", settings.DISTANCE);
   setupNumberIncrementor($('#pace-inc'), 0.5, "PACE", settings.PACE);
 
-  //alerts
-  $('#app').bind('alert', function(event, soundFileName) {
-    console.log(soundFileName);
+  //music
+  distanceTraveled = 0;
 
-    //play sound here, maybe
-    //TODO differentiate between alerts with multiple levels (milestones, calories)
-    //also TODO: find a good way to loop audio files so that multiple can be synced
-    var snd = new Audio("data/" + soundFileName + ".wav");
-    snd.play();
+  //alerts
+  $('#app').bind('alert', function(event, alertSettings) {
+    var isEnabled = false;
+    eval("isEnabled = settings."+alertSettings.settingId+";");
+
+    if( isEnabled || alertSettings.settingId=="MILESTONES") {
+
+      if( alertSettings.soundFileName == "halfmile") {
+        distanceTraveled += 0.5;
+
+        if( distanceTraveled * 2 == settings.DISTANCE && isEnabled) //halfway
+          triggerPiano();
+        else if( distanceTraveled >= settings.DISTANCE) {
+          //done
+          var snd = new Audio("data/goal.wav");
+          snd.play();
+          $('.stop').click(); 
+        }
+
+      } else {
+        var snd = new Audio("data/" + alertSettings.soundFileName + ".wav");
+        snd.play();
+      }
+    }
 
   });
 
   $('.alert').click(function() {
-    $('#app').trigger('alert', $(this).attr('id'));
+    $('#app').trigger('alert', {soundFileName: $(this).attr('id'),settingId: $(this).data('setting')});
   });
 
 });
